@@ -28,13 +28,12 @@ public class NovaInstanciaController {
 	@PostMapping(value = "/livros/{isbn}/instancias")
 	public ResponseEntity<?> executa(@PathVariable("isbn") String isbn, @RequestBody @Valid NovaInstanciaRequest request) {
 		Optional<Livro> possivelLivro = repository.findByIsbn(isbn);
-		if(possivelLivro.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} 
 		
-		Instancia novaInstancia = request.toModel(possivelLivro.get());
-		manager.persist(novaInstancia);
-		
-		return ResponseEntity.ok(novaInstancia.getId());
+		return possivelLivro.map(livro -> {
+			Instancia novaInstancia = request.toModel(possivelLivro.get());
+			manager.persist(novaInstancia);
+			
+			return ResponseEntity.ok(novaInstancia.getId());
+		}).orElse(ResponseEntity.notFound().build());
 	}
 }
