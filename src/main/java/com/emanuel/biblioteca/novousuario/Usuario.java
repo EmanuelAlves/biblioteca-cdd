@@ -15,6 +15,8 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private @NotNull TipoUsuario tipo;
+	
+	public Usuario() {}
 
 	public Usuario(@NotNull TipoUsuario tipo) {
 		this.tipo = tipo;
@@ -25,4 +27,7 @@ public class Usuario {
 		return id;
 	}
 
+	public boolean padrao() {
+		return this.tipo.equals(TipoUsuario.PADRAO);
+	}
 }

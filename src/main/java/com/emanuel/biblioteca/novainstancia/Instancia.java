@@ -26,6 +26,8 @@ public class Instancia {
 	@Valid
 	@ManyToOne
 	private Livro livro;
+	
+	public Instancia() {}
 
 	public Instancia(@NotNull Tipo tipo, Livro livro) {
 		this.tipo = tipo;
@@ -35,5 +37,9 @@ public class Instancia {
 	public Long getId() {
 		Assert.state(Objects.nonNull(id),"O id está nulo. Chamou o persist?");
 		return id;
+	}
+	
+	public boolean verificaTipo(Tipo tipo) {
+		return this.tipo.equals(tipo);
 	}
 }
